@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowyourimage</title>
+</head>
+<body>
+    <style>
+        body{
+            background-color: blueviolet;
+        }
+        .upload{
+           padding-top: 5%;
+           padding-left: 45%;
+        }
+        .image{
+            padding-top: 5%;
+            padding-left: 35%;
+
+        }
+        
+    </style>
+    <input id="photo" type="file" class="upload">
+    <div id="answer" class="image"></div>
+    <script>
+       async function loaded(reader) {
+    const response = await fetch('https://rghdrizzle-fox-dog-wolf-identifier.hf.space/api/predict', {
+      method: "POST", body: JSON.stringify({ "data": [reader.result] }),
+      headers: { "Content-Type": "application/json" }
+    });
+    const json = await response.json();
+    const label = json['data'][0]['confidences'][0]['label'];
+    answer.innerHTML = `<br/><img src="${reader.result}" width="300"> <p>${label}</p>`
+  }
+  function read() {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => loaded(reader))
+    reader.readAsDataURL(photo.files[0]);
+  }
+  photo.addEventListener('input', read);
+  </script>
+    
+</body>
+</html>
