@@ -10,6 +10,12 @@
     <style>
         body{
             background-color: blueviolet;
+            background-image: -moz-element(#answer2);
+            background-repeat: round;
+            
+            
+            
+           
         }
         .upload{
            padding-top: 5%;
@@ -17,13 +23,25 @@
         }
         .image{
             padding-top: 5%;
-            padding-left: 35%;
+            padding-left: 38%;
 
+        }
+        .yessir{
+            padding-left: 20%;
+            padding-right: 20%;
+            text-align: center;
+            font-size: 2.75vw;
+            color:burlywood;
+          
         }
         
     </style>
     <input id="photo" type="file" class="upload">
     <div id="answer" class="image"></div>
+    <div class="yessir">
+      <h1 id="answer2"></h1>
+    </div>
+    
     <script>
        async function loaded(reader) {
     const response = await fetch('https://rghdrizzle-fox-dog-wolf-identifier.hf.space/api/predict', {
@@ -32,7 +50,8 @@
     });
     const json = await response.json();
     const label = json['data'][0]['confidences'][0]['label'];
-    answer.innerHTML = `<br/><img src="${reader.result}" width="300"> <p>${label}</p>`
+    answer.innerHTML = `<br/><img src="${reader.result}" width="300">`
+    answer2.innerHTML = `<p>${label}</p>`
   }
   function read() {
     const reader = new FileReader();
